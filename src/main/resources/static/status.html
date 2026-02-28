@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Stato analisi — Reviewer</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="status-page">
+    <div class="card">
+        <div class="card-header">
+            <span class="card-icon">&lt;/&gt;</span>
+            <h1>Stato analisi</h1>
+        </div>
+
+        <p class="job-label">Job ID</p>
+        <p class="job-id" id="jobId"></p>
+
+        <p class="job-label" style="margin-top:1.4rem;">Stato</p>
+        <p id="stateBadge" class="state-badge"></p>
+
+        <ol id="opList" class="op-list"></ol>
+    </div>
+
+    <script>
+        const jobId = new URLSearchParams(window.location.search).get('jobId');
+        document.getElementById('jobId').textContent = jobId ?? '(non fornito)';
+
+        const STATE_LABELS = {
+            PENDING: 'In attesa…',
+            RUNNING: 'In esecuzione…',
+            DONE:    'Completato',
+            ERROR:   'Errore',
+        };
+
+        const stateBadge = document.getElementById('stateBadge');
+        const opList     = document.getElementById('opList');
+
+        function renderState(data) {
+            const state = data.status;
+            stateBadge.textContent  = STATE_LABELS[state] ?? state;
+            stateBadge.className    = 'state-badge state-' + state.toLowerCase();
+
+            opList.innerHTML = '';
+            for (const op of data.operations ?? []) {
+                const li    = document.createElement('li');
+                li.className = 'op-item';
+
+                const desc  = document.createElement('span');
+                desc.className   = 'op-desc';
+                desc.textContent = op.description;
+
+                const badge = document.createElement('span');
+                badge.className  = op.ok ? 'op-badge op-ok' : 'op-badge op-err';
+                badge.textContent = op.ok ? 'OK' : 'ERRORE';
+
+                li.appendChild(desc);
+                li.appendChild(badge);
+                opList.appendChild(li);
+            }
+        }
+
+        async function poll() {
+            if (!jobId) return;
+            try {
+                const res  = await fetch('/status/' + encodeURIComponent(jobId));
+                if (!res.ok) return;
+                const data = await res.json();
+                renderState(data);
+                if (data.status !== 'DONE' && data.status !== 'ERROR') {
+                    setTimeout(poll, 1000);
+                }
+            } catch (_) {
+                setTimeout(poll, 1000);
+            }
+        }
+
+        poll();
+    </script>
+</body>
+</html>

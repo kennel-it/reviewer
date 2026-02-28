@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Reviewer</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <span class="card-icon">&lt;/&gt;</span>
+            <h1>Carica classi Java</h1>
+        </div>
+
+        <form id="uploadForm">
+            <div class="field">
+                <label for="id">ID sessione</label>
+                <input type="text" id="id" name="id"
+                       pattern="[a-zA-Z_]+" required
+                       placeholder="es. gruppo_A">
+            </div>
+
+            <div class="field">
+                <label>File .java</label>
+                <div class="file-drop" id="fileDrop">
+                    <span class="drop-icon">&#x2191;</span>
+                    <p>Trascina i file qui oppure clicca per selezionarli</p>
+                    <span>Solo file .java, selezione multipla</span>
+                    <ul class="file-list" id="fileList"></ul>
+                    <input type="file" id="files" name="files"
+                           accept=".java" multiple required>
+                </div>
+            </div>
+
+            <button type="submit" id="btn">Carica e analizza</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('files');
+        const fileDrop  = document.getElementById('fileDrop');
+        const fileList  = document.getElementById('fileList');
+
+        // Accumulo dei file selezionati nelle varie sessioni di scelta
+        const accumulated = new DataTransfer();
+
+        function refreshFileInput() {
+            fileInput.files = accumulated.files;
+            fileList.innerHTML = '';
+            for (const file of accumulated.files) {
+                const li = document.createElement('li');
+                li.textContent = file.name;
+                fileList.appendChild(li);
+            }
+        }
+
+        fileInput.addEventListener('change', () => {
+            for (const file of fileInput.files) {
+                // Evita duplicati per nome
+                const exists = [...accumulated.files].some(f => f.name === file.name);
+                if (!exists) accumulated.items.add(file);
+            }
+            refreshFileInput();
+        });
+
+        fileDrop.addEventListener('dragover', e => { e.preventDefault(); fileDrop.classList.add('dragover'); });
+        fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('dragover'));
+        fileDrop.addEventListener('drop',      () => fileDrop.classList.remove('dragover'));
+
+        document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const btn    = document.getElementById('btn');
+            const result = document.getElementById('result');
+            btn.disabled = true;
+            result.style.display = 'none';
+
+            const data = new FormData(this);
+
+            try {
+                const response = await fetch('/upload', { method: 'POST', body: data });
+                const json = await response.json();
+
+                if (response.ok) {
+                    window.location.href = '/status.html?jobId=' + encodeURIComponent(json.jobId);
+                    return;
+                }
+
+                result.textContent = json.message;
+                result.className = 'err';
+                result.style.display = 'block';
+            } catch (err) {
+                result.textContent = 'Errore di rete: ' + err.message;
+                result.className = 'err';
+                result.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
