@@ -2,6 +2,8 @@ package it.edu.iisgubbio.reviewer.reviewer.controller;
 
 import it.edu.iisgubbio.reviewer.reviewer.AnalysisWorker;
 import it.edu.iisgubbio.reviewer.reviewer.JobBroker;
+import it.edu.iisgubbio.reviewer.reviewer.Tester;
+import it.edu.iisgubbio.reviewer.reviewer.TesterFinder;
 import it.edu.iisgubbio.reviewer.reviewer.dto.UploadResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +24,12 @@ public class Upload {
 
     private final AnalysisWorker analysisWorker;
     private final JobBroker jobBroker;
+    private final TesterFinder testerFinder;
 
-    public Upload(AnalysisWorker analysisWorker, JobBroker jobBroker) {
+    public Upload(AnalysisWorker analysisWorker, JobBroker jobBroker, TesterFinder testerFinder) {
         this.analysisWorker = analysisWorker;
         this.jobBroker = jobBroker;
+        this.testerFinder = testerFinder;
     }
 
     @PostMapping("/upload")
@@ -45,13 +49,25 @@ public class Upload {
 
         String effectiveId = jobBroker.generateId(id);
         Path targetDir = Path.of(System.getProperty("java.io.tmpdir"), "reviewer", effectiveId);
-        System.out.println("salvo in >>>"+targetDir);
 
         try {
             Files.createDirectories(targetDir);
         } catch (IOException e) {
             return ResponseEntity.internalServerError()
                     .body(UploadResponse.error("Impossibile creare la directory di lavoro"));
+        }
+
+        // --- Copia la classe di prova, per ora è sempre la stessa
+        Tester tester = testerFinder.getTesterFor("TesterMobilita");
+        if(tester!=null){
+            Path testerDir = resolvePackageDir(tester.bytes(), targetDir);
+            try {
+                Files.createDirectories(testerDir);
+                Files.write(testerDir.resolve("TesterMobilita.java"), tester.bytes());
+            } catch (IOException e) {
+                return ResponseEntity.internalServerError()
+                    .body(UploadResponse.error("Errore nel copiare la classe per eseguire i test"));
+            }
         }
 
         int saved = 0;

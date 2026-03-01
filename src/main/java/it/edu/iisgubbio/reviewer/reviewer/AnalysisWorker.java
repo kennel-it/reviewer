@@ -10,7 +10,14 @@ import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -44,7 +51,36 @@ public class AnalysisWorker {
                 return;
             }
 
-            // TODO: fasi successive (analisi strutturale, report, ...)
+            // --- Fase 2: classloader sulla cartella dei .class ---
+            URL[] urls = { workDir.toUri().toURL() };
+            try (URLClassLoader classLoader = new URLClassLoader(urls, getClass().getClassLoader())) {
+
+                // --- Fase 3: esecuzione di TesterMobilita.main() ---
+                Class<?> testerClass = classLoader.loadClass("it.edu.informatica.mobilita.TesterMobilita");
+                Method mainMethod = testerClass.getMethod("main", String[].class);
+
+                // cattura stdout: TesterMobilita scrive i risultati su System.out
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                PrintStream oldOut = System.out;
+                System.setOut(new PrintStream(baos, true, StandardCharsets.UTF_8));
+                try {
+                    mainMethod.invoke(null, (Object) new String[0]);
+                } catch (InvocationTargetException e) {
+                    log.warning("TesterMobilita ha lanciato un'eccezione: " + e.getCause());
+                } finally {
+                    System.setOut(oldOut);
+                }
+
+                // ogni riga diventa una JobStatusOperation
+                String output = baos.toString(StandardCharsets.UTF_8);
+                output.lines()
+                        .filter(line -> !line.isBlank())
+                        .forEach(line -> {
+                            boolean ok = !line.contains("ERRORE") && !line.contains("errori");
+                            jobBroker.addOperation(jobId, new JobStatusOperation(line, ok));
+                        });
+
+            }
 
             jobBroker.setState(jobId, JobStatus.State.DONE);
         } catch (Exception e) {
