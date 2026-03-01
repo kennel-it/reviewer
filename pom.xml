@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>it.edu.iisgubbio.reviewer</groupId>
 	<artifactId>reviewer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>reviewer</name>
-	<description>Controlla le classi java cariate per vedere se corrispondono alle specifiche</description>
+	<description>Controlla le classi java caricate per vedere se corrispondono alle specifiche</description>
 	<url/>
 	<licenses>
 		<license/>

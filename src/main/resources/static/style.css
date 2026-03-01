@@ -352,3 +352,66 @@ button[type="submit"]:disabled {
 }
 
 .back-link:hover { color: #6c8aff; }
+
+/* ── Pagina recent submissions ──────────────────────────────────────────── */
+
+.card-wide { max-width: 68rem; }
+
+.recent-hint {
+    font-size: 0.82rem;
+    color: #7a85a3;
+    margin-bottom: 1.4rem;
+}
+
+.recent-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.recent-table thead th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #7a85a3;
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #2d3148;
+}
+
+.recent-table tbody tr { border-bottom: 1px solid #1e2133; }
+
+.recent-row {
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.recent-row:hover { background: #161924; }
+
+.recent-row td { padding: 0.55rem 0.75rem; vertical-align: middle; }
+
+.recent-job-id {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #6c8aff;
+}
+
+.recent-date {
+    color: #9ca3af;
+    white-space: nowrap;
+    font-size: 0.83rem;
+}
+
+.recent-score {
+    font-weight: 700;
+    color: #34d399;
+    text-align: center;
+}
+
+.recent-empty {
+    text-align: center;
+    color: #3d4460;
+    padding: 2rem 0;
+    font-size: 0.9rem;
+}

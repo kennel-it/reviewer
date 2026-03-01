@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,9 +19,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class JobBroker {
 
     private final ConcurrentHashMap<String, JobStatus> jobs = new ConcurrentHashMap<>();
+    // Tiene traccia dell'ordine di inserimento dei job
+    private final LinkedList<String> jobOrder = new LinkedList<>();
 
     public void register(String jobId) {
         jobs.put(jobId, new JobStatus());
+        synchronized (jobOrder) {
+            jobOrder.add(jobId);
+        }
     }
 
     public void setState(String jobId, JobStatus.State state) {
@@ -32,6 +41,23 @@ public class JobBroker {
 
     public Optional<JobStatus> getStatus(String jobId) {
         return Optional.ofNullable(jobs.get(jobId));
+    }
+
+    /** Restituisce gli ultimi {@code n} job registrati, dal più recente al meno recente */
+    public List<Map.Entry<String, JobStatus>> getRecentJobs(int n) {
+        List<String> ids;
+        synchronized (jobOrder) {
+            int from = Math.max(0, jobOrder.size() - n);
+            ids = new ArrayList<>(jobOrder.subList(from, jobOrder.size()));
+        }
+        // invertiamo per avere prima i più recenti
+        List<Map.Entry<String, JobStatus>> result = new ArrayList<>();
+        for (int i = ids.size() - 1; i >= 0; i--) {
+            String id = ids.get(i);
+            JobStatus status = jobs.get(id);
+            if (status != null) result.add(Map.entry(id, status));
+        }
+        return result;
     }
 
     private static final Path WORK_ROOT = Path.of(System.getProperty("java.io.tmpdir"), "reviewer");
