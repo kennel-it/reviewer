@@ -57,20 +57,8 @@ public class Upload {
                     .body(UploadResponse.error("Impossibile creare la directory di lavoro"));
         }
 
-        // --- Copia la classe di prova, per ora è sempre la stessa
-        Tester tester = testerFinder.getTesterFor("TesterMobilita");
-        if(tester!=null){
-            Path testerDir = resolvePackageDir(tester.bytes(), targetDir);
-            try {
-                Files.createDirectories(testerDir);
-                Files.write(testerDir.resolve("TesterMobilita.java"), tester.bytes());
-            } catch (IOException e) {
-                return ResponseEntity.internalServerError()
-                    .body(UploadResponse.error("Errore nel copiare la classe per eseguire i test"));
-            }
-        }
-
         int saved = 0;
+        String packageDir = "";
         for (MultipartFile file : files) {
             String originalName = file.getOriginalFilename();
             if (originalName == null || !originalName.endsWith(".java")) {
@@ -80,6 +68,11 @@ public class Upload {
             String safeName = Path.of(originalName).getFileName().toString();
             try {
                 byte[] bytes = file.getBytes();
+                // Estrae il nome del pacchetto dal primo file che ne abbia uno
+                if (packageDir.isEmpty()) {
+                    Matcher m = PACKAGE_PATTERN.matcher(new String(bytes, StandardCharsets.UTF_8));
+                    if (m.find()) packageDir = m.group(1);
+                }
                 Path fileDir = resolvePackageDir(bytes, targetDir);
                 Files.createDirectories(fileDir);
                 Files.write(fileDir.resolve(safeName), bytes);
@@ -90,13 +83,27 @@ public class Upload {
             }
         }
 
+        // --- Copia la classe di prova
+        Tester tester = testerFinder.getTesterFor(packageDir);
+        if(tester!=null){
+            Path testerDir = resolvePackageDir(tester.bytes(), targetDir);
+            System.out.println(">>>>>>> "+testerDir);
+            try {
+                Files.createDirectories(testerDir);
+                Files.write(testerDir.resolve(tester.nomeClasse()+".java"), tester.bytes());
+            } catch (IOException e) {
+                return ResponseEntity.internalServerError()
+                    .body(UploadResponse.error("Errore nel copiare la classe per eseguire i test"));
+            }
+        }
+
         if (saved == 0) {
             return ResponseEntity.badRequest()
                     .body(UploadResponse.error("Nessun file .java tra quelli caricati"));
         }
 
         jobBroker.register(effectiveId);
-        analysisWorker.analyze(targetDir, effectiveId);
+        analysisWorker.analyze(targetDir, effectiveId, packageDir+"."+tester.nomeClasse());
 
         return ResponseEntity.ok(UploadResponse.ok(saved + " file salvati. Analisi avviata.", effectiveId));
     }

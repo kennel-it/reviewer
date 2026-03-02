@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>it.edu.iisgubbio</groupId>
 	<artifactId>reviewer</artifactId>
-	<version>1.1</version>
+	<version>1.2</version>
 	<name>reviewer</name>
 	<description>Controlla le classi java caricate per vedere se corrispondono alle specifiche</description>
 	<url/>

@@ -18,16 +18,24 @@ public class TesterFinder {
         try (var in = getClass().getResourceAsStream("/data/TesterMobilita.java")) {
             if (in != null) {
                 byte[] bytes = in.readAllBytes();
-                testers.put("TesterMobilita", new Tester("TesterMobilita.java",bytes));
+                testers.put("it.edu.iisgubbio.mobilita", new Tester("TesterMobilita",bytes));
+            }
+        } catch (IOException e) {
+            // TODO: metti errore nel log
+        }
+
+        try (var in = getClass().getResourceAsStream("/data/TesterFattoria.java")) {
+            if (in != null) {
+                byte[] bytes = in.readAllBytes();
+                testers.put("it.edu.iisgubbio.oggetti.fattoria", new Tester("TesterFattoria",bytes));
             }
         } catch (IOException e) {
             // TODO: metti errore nel log
         }
     }
 
-    // TODO: l'idea sarebbe in futuro di recuperare i tester in maniera più furba
-    public Tester getTesterFor(String nome){
-        return testers.get("TesterMobilita");
+    public Tester getTesterFor(String pacchetto){
+        return testers.get(pacchetto);
     }
 
 }

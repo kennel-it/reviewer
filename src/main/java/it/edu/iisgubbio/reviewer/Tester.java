@@ -1,3 +1,3 @@
 package it.edu.iisgubbio.reviewer;
 
-public record Tester(String nomeFile, byte[] bytes){}
+public record Tester(String nomeClasse, byte[] bytes){}
