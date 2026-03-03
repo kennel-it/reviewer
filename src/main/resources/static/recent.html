@@ -10,13 +10,13 @@
 <body class="status-page">
     <div class="card card-wide">
         <div class="card-header">
-            <span class="card-icon">&lt;/&gt;</span>
+            <span>&lt;/&gt;</span>
             <h1>Ultime submissions</h1>
         </div>
 
         <p class="recent-hint">Le ultime 15 analisi inviate, dalla più recente. Aggiornamento automatico ogni 5 s.</p>
 
-        <table class="recent-table" id="recentTable">
+        <table id="recentTable">
             <thead>
                 <tr>
                     <th>Job ID</th>
@@ -26,11 +26,11 @@
                 </tr>
             </thead>
             <tbody id="recentBody">
-                <tr><td colspan="4" class="recent-empty">Caricamento…</td></tr>
+                <tr><td colspan="4">Caricamento…</td></tr>
             </tbody>
         </table>
 
-        <a href="/" class="back-link">&#8592; Nuova analisi</a>
+        <a href="/">&#8592; Nuova analisi</a>
     </div>
 
     <script>
@@ -52,27 +52,26 @@
             try {
                 const res = await fetch('/status/recent');
                 if (!res.ok) {
-                    tbody.innerHTML = '<tr><td colspan="4" class="recent-empty">Errore nel caricamento.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4">Errore nel caricamento.</td></tr>';
                     return;
                 }
                 const jobs = await res.json();
 
                 if (jobs.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" class="recent-empty">Nessuna analisi ancora inviata.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4">Nessuna analisi ancora inviata.</td></tr>';
                     return;
                 }
 
                 tbody.innerHTML = '';
                 for (const job of jobs) {
                     const tr = document.createElement('tr');
-                    tr.className = 'recent-row';
                     tr.title = 'Clicca per vedere il dettaglio';
                     tr.addEventListener('click', () => {
                         window.location.href = '/status.html?jobId=' + encodeURIComponent(job.jobId);
                     });
 
                     const tdId = document.createElement('td');
-                    tdId.innerHTML = `<code class="recent-job-id">${job.jobId}</code>`;
+                    tdId.innerHTML = `<code>${job.jobId}</code>`;
 
                     const tdState = document.createElement('td');
                     const badge = document.createElement('span');
@@ -81,18 +80,16 @@
                     tdState.appendChild(badge);
 
                     const tdDate = document.createElement('td');
-                    tdDate.className = 'recent-date';
                     tdDate.textContent = formatDate(job.registeredAt);
 
                     const tdScore = document.createElement('td');
-                    tdScore.className = 'recent-score';
                     tdScore.textContent = job.score;
 
                     tr.append(tdId, tdState, tdDate, tdScore);
                     tbody.appendChild(tr);
                 }
             } catch (_) {
-                tbody.innerHTML = '<tr><td colspan="4" class="recent-empty">Errore di rete.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4">Errore di rete.</td></tr>';
             }
         }
 

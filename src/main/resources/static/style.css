@@ -22,6 +22,8 @@
     --state-gray:  #9ca3af;
     --btn-text:    #fff;
     --shadow:      rgba(0, 0, 0, 0.5);
+    --inline-code-bg:     rgba(255,255,255,0.07);
+    --inline-code-border: rgba(255,255,255,0.14);
     /* Colori accent come triplette RGB per usarli con rgba() */
     --accent-rgb:  108, 138, 255;   /* indigo */
     --accent2-rgb: 160, 102, 255;   /* viola */
@@ -50,8 +52,10 @@
     --state-gray:  #9ca3af;
     --btn-text:    #fff;
     --shadow:      rgba(0, 0, 0, 0.08);
+    --inline-code-bg:     rgba(0,0,0,0.05);
+    --inline-code-border: rgba(0,0,0,0.11);
     --accent-rgb:  249, 115,  22;   /* arancione */
-    --accent2-rgb:  16, 185, 129;   /* verde */
+    --accent2-rgb:  9, 232, 95;   /* verde */
     --ok-rgb:      16,  185, 129;   /* verde */
     --err-rgb:     239, 68,  68;    /* rosso */
     --accent:  rgb(var(--accent-rgb));
@@ -115,7 +119,7 @@ body.status-page {
     margin-bottom: 2rem;
 }
 
-.card-icon {
+.card-header > span {
     font-size: 1.4rem;
     font-weight: 700;
     color: var(--accent);
@@ -181,7 +185,7 @@ input[type="text"]:focus {
     background: rgba(var(--accent-rgb), 0.05);
 }
 
-.drop-icon {
+.file-drop > span:first-child {
     display: block;
     font-size: 2rem;
     color: var(--text-dim);
@@ -189,7 +193,7 @@ input[type="text"]:focus {
     transition: color 0.2s;
     line-height: 1;
 }
-.file-drop:hover .drop-icon { color: var(--accent); }
+.file-drop:hover > span:first-child { color: var(--accent); }
 
 .file-drop p {
     font-size: 0.88rem;
@@ -197,7 +201,7 @@ input[type="text"]:focus {
     margin-bottom: 0.2rem;
 }
 
-.file-drop span {
+.file-drop > span:last-of-type {
     font-size: 0.78rem;
     color: var(--text-dim);
 }
@@ -211,7 +215,7 @@ input[type="text"]:focus {
     height: 100%;
 }
 
-.file-list {
+.file-drop ul {
     list-style: none;
     width: 100%;
     margin-top: 0.9rem;
@@ -223,9 +227,9 @@ input[type="text"]:focus {
     pointer-events: none;
 }
 
-.file-list:empty { display: none; }
+.file-drop ul:empty { display: none; }
 
-.file-list li {
+.file-drop ul li {
     font-size: 0.82rem;
     font-family: monospace;
     color: var(--accent);
@@ -239,7 +243,7 @@ input[type="text"]:focus {
     text-overflow: ellipsis;
 }
 
-.clear-btn {
+button[type="button"] {
     margin-top: 0.6rem;
     padding: 0.3rem 0.8rem;
     background: transparent;
@@ -252,7 +256,7 @@ input[type="text"]:focus {
     transition: background 0.2s, border-color 0.2s;
 }
 
-.clear-btn:hover {
+button[type="button"]:hover {
     background: rgba(var(--err-rgb), 0.1);
     border-color: rgba(var(--err-rgb), 0.6);
 }
@@ -315,7 +319,7 @@ button[type="submit"]:disabled {
     margin-bottom: 0.4rem;
 }
 
-.job-id {
+.job-label code {
     display: inline-block;
     margin-left: 2rem;
     font-family: monospace;
@@ -351,16 +355,16 @@ button[type="submit"]:disabled {
 .state-done  { background: rgba(var(--ok-rgb),  0.10); color: var(--ok);  border: 1px solid rgba(var(--ok-rgb),  0.35); }
 .state-error { background: rgba(var(--err-rgb), 0.10); color: var(--err); border: 1px solid rgba(var(--err-rgb), 0.35); }
 
-.op-list {
+.card > ol {
     list-style: none;
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
 }
 
-.op-list:empty { display: none; }
+.card > ol:empty { display: none; }
 
-.op-item {
+.card > ol > li {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -372,21 +376,31 @@ button[type="submit"]:disabled {
     transition: background 0.15s, border-color 0.15s;
 }
 
-.op-item:nth-child(even) {
+.card > ol > li:nth-child(even) {
     background-color: var(--bg-item-alt);
 }
 
-.op-item:hover {
+.card > ol > li:hover {
     background: var(--bg-hover);
     border-color: var(--text-dim);
 }
 
-.op-desc {
+.card > ol > li > span:first-child {
     font-size: 0.84rem;
     color: var(--text-desc);
 }
 
-.op-badge {
+.card > ol > li > span:first-child > em {
+    font-style: normal;
+    font-family: monospace;
+    font-size: 0.9em;
+    background: var(--inline-code-bg);
+    border: 1px solid var(--inline-code-border);
+    border-radius: 3px;
+    padding: 0.05em 0.3em;
+}
+
+.card > ol > li > span[data-ok] {
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.05em;
@@ -395,10 +409,10 @@ button[type="submit"]:disabled {
     flex-shrink: 0;
 }
 
-.op-ok  { background: rgba(var(--ok-rgb),  0.12); color: var(--ok);  border: 1px solid rgba(var(--ok-rgb),  0.35); }
-.op-err { background: rgba(var(--err-rgb), 0.12); color: var(--err); border: 1px solid rgba(var(--err-rgb), 0.35); }
+.card > ol > li > span[data-ok="true"]  { background: rgba(var(--ok-rgb),  0.12); color: var(--ok);  border: 1px solid rgba(var(--ok-rgb),  0.35); }
+.card > ol > li > span[data-ok="false"] { background: rgba(var(--err-rgb), 0.12); color: var(--err); border: 1px solid rgba(var(--err-rgb), 0.35); }
 
-.back-link {
+.card > a {
     display: inline-block;
     margin-top: 1.8rem;
     font-size: 0.85rem;
@@ -408,7 +422,7 @@ button[type="submit"]:disabled {
     transition: color 0.2s;
 }
 
-.back-link:hover { color: var(--accent); }
+.card > a:hover { color: var(--accent); }
 
 /* ── Pagina recent submissions ──────────────────────────────────────────── */
 
@@ -420,13 +434,13 @@ button[type="submit"]:disabled {
     margin-bottom: 1.4rem;
 }
 
-.recent-table {
+.card > table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.88rem;
 }
 
-.recent-table thead th {
+.card table th {
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -437,36 +451,35 @@ button[type="submit"]:disabled {
     border-bottom: 1px solid var(--border);
 }
 
-.recent-table tbody tr { border-bottom: 1px solid var(--border-dim); }
-
-.recent-row {
+.card table tbody tr {
+    border-bottom: 1px solid var(--border-dim);
     cursor: pointer;
     transition: background 0.15s;
 }
 
-.recent-row:hover { background: var(--bg-hover); }
+.card table tbody tr:hover { background: var(--bg-hover); }
 
-.recent-row td { padding: 0.55rem 0.75rem; vertical-align: middle; }
+.card table td { padding: 0.55rem 0.75rem; vertical-align: middle; }
 
-.recent-job-id {
+.card table td code {
     font-family: monospace;
     font-size: 0.9rem;
     color: var(--accent);
 }
 
-.recent-date {
+.card table td:nth-child(3) {
     color: var(--state-gray);
     white-space: nowrap;
     font-size: 0.83rem;
 }
 
-.recent-score {
+.card table td:last-child {
     font-weight: 700;
     color: var(--ok);
     text-align: center;
 }
 
-.recent-empty {
+td[colspan] {
     text-align: center;
     color: var(--text-dim);
     padding: 2rem 0;
@@ -475,7 +488,7 @@ button[type="submit"]:disabled {
 
 /* ── Overrides tema light ───────────────────────────────────────────────── */
 
-[data-theme="light"] .card-icon {
+[data-theme="light"] .card-header > span {
     /* glow più leggero su sfondo chiaro */
     text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.35);
 }

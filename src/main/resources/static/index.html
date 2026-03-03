@@ -10,7 +10,7 @@
 <body>
     <div class="card">
         <div class="card-header">
-            <span class="card-icon">&lt;/&gt;</span>
+            <span>&lt;/&gt;</span>
             <h1>Carica classi Java</h1>
         </div>
 
@@ -25,14 +25,14 @@
             <div class="field">
                 <label>File .java</label>
                 <div class="file-drop" id="fileDrop">
-                    <span class="drop-icon">&#x2191;</span>
+                    <span>&#x2191;</span>
                     <p>Trascina i file qui oppure clicca per selezionarli</p>
                     <span>Solo file .java, selezione multipla</span>
-                    <ul class="file-list" id="fileList"></ul>
+                    <ul id="fileList"></ul>
                     <input type="file" id="files" name="files"
                            accept=".java" multiple required>
                 </div>
-                <button type="button" id="clearBtn" class="clear-btn" hidden>&#x2715; Rimuovi tutti</button>
+                <button type="button" id="clearBtn" hidden>&#x2715; Rimuovi tutti</button>
             </div>
 
             <button type="submit" id="btn">Carica e analizza</button>

@@ -10,20 +10,20 @@
 <body class="status-page">
     <div class="card">
         <div class="card-header">
-            <span class="card-icon">&lt;/&gt;</span>
+            <span>&lt;/&gt;</span>
             <h1>Stato analisi</h1>
         </div>
 
         <p class="job-label">Job ID
-            <code class="job-id" id="jobId"></code>
+            <code id="jobId"></code>
         </p>
         <p class="job-label" style="margin-top:1.4rem;">Stato
             <span id="stateBadge" class="state-badge"></span>
         </p>
 
-        <ol id="opList" class="op-list"></ol>
+        <ol id="opList"></ol>
 
-        <a href="/" class="back-link">&#8592; Nuova analisi</a>
+        <a href="/">&#8592; Nuova analisi</a>
     </div>
 
     <script>
@@ -40,6 +40,22 @@
         const stateBadge = document.getElementById('stateBadge');
         const opList     = document.getElementById('opList');
 
+        // Popola `container` con il testo, avvolgendo le parti tra virgolette in <em>
+        function renderDesc(container, text) {
+            const regex = /"([^"]*)"/g;
+            let last = 0, match;
+            while ((match = regex.exec(text)) !== null) {
+                if (match.index > last)
+                    container.appendChild(document.createTextNode(text.slice(last, match.index)));
+                const em = document.createElement('em');
+                em.textContent = match[1];
+                container.appendChild(em);
+                last = regex.lastIndex;
+            }
+            if (last < text.length)
+                container.appendChild(document.createTextNode(text.slice(last)));
+        }
+
         function renderState(data) {
             const state = data.status;
             stateBadge.textContent  = STATE_LABELS[state] ?? state;
@@ -47,15 +63,13 @@
 
             opList.innerHTML = '';
             for (const op of data.operations ?? []) {
-                const li    = document.createElement('li');
-                li.className = 'op-item';
+                const li   = document.createElement('li');
 
-                const desc  = document.createElement('span');
-                desc.className   = 'op-desc';
-                desc.textContent = op.description;
+                const desc = document.createElement('span');
+                renderDesc(desc, op.description);
 
                 const badge = document.createElement('span');
-                badge.className  = op.ok ? 'op-badge op-ok' : 'op-badge op-err';
+                badge.dataset.ok  = op.ok;
                 badge.textContent = op.ok ? 'OK' : 'ERRORE';
 
                 li.appendChild(desc);

@@ -19,6 +19,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/****************************************************************************
+ * Endpoint per il caricamento dei sorgenti Java da parte degli studenti.
+ * Riceve uno o più file .java via POST /upload, li salva in una directory
+ * di lavoro temporanea rispettando la struttura dei package, vi affianca
+ * la classe tester appropriata (scelta tramite TesterRegistry) e avvia
+ * l'analisi asincrona tramite AnalysisWorker.
+ * Risponde con un UploadResponse contenente il jobId da usare per il
+ * polling su GET /status/{jobId}.
+ * La risposta viene inviata a termine caricamento (non a termine del lavoro
+ * che sta ad analisysworker )
+ ***************************************************************************/
 @RestController
 public class UploadController {
 
