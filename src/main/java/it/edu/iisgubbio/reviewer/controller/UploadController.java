@@ -118,6 +118,7 @@ public class UploadController {
         }
 
         jobBroker.register(effectiveId);
+        jobBroker.setPackageName(effectiveId, packageDir);
         jobBroker.addOperation(effectiveId, new JobStatusOperation("Test per "+packageDir, true));
         analysisWorker.analyze(targetDir, effectiveId, packageDir+"."+tester.nomeClasse());
 

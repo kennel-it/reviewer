@@ -15,6 +15,7 @@ public class JobStatus {
 
     private volatile State status;
     private final Instant registeredAt;
+    private volatile String packageName;
     private final List<JobStatusOperation> operations = Collections.synchronizedList(new ArrayList<>());
 
     public JobStatus() {
@@ -32,6 +33,14 @@ public class JobStatus {
 
     public void setStatus(State status) {
         this.status = status;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     public void addOperation(JobStatusOperation operation) {

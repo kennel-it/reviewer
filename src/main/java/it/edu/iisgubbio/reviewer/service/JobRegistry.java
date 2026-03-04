@@ -35,6 +35,11 @@ public class JobRegistry {
         if (job != null) job.setStatus(state);
     }
 
+    public void setPackageName(String jobId, String packageName) {
+        JobStatus job = jobs.get(jobId);
+        if (job != null) job.setPackageName(packageName);
+    }
+
     public void addOperation(String jobId, JobStatusOperation operation) {
         JobStatus job = jobs.get(jobId);
         if (job != null) job.addOperation(operation);

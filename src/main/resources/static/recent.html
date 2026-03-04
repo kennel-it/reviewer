@@ -19,14 +19,14 @@
         <table id="recentTable">
             <thead>
                 <tr>
-                    <th>Job ID</th>
+                    <th>Job ID / Pacchetto</th>
                     <th>Stato</th>
                     <th>Inviato</th>
                     <th>Score</th>
                 </tr>
             </thead>
             <tbody id="recentBody">
-                <tr><td colspan="4">Caricamento…</td></tr>
+                <tr><td colspan="4" class="recent-empty">Caricamento…</td></tr>
             </tbody>
         </table>
 
@@ -58,7 +58,7 @@
                 const jobs = await res.json();
 
                 if (jobs.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4">Nessuna analisi ancora inviata.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" class="recent-empty">Nessuna analisi ancora inviata.</td></tr>';
                     return;
                 }
 
@@ -71,7 +71,8 @@
                     });
 
                     const tdId = document.createElement('td');
-                    tdId.innerHTML = `<code>${job.jobId}</code>`;
+                    tdId.innerHTML = `<code>${job.jobId}</code>`
+                                   + (job.packageName ? `<br><span class="recent-pkg">${job.packageName}</span>` : '');
 
                     const tdState = document.createElement('td');
                     const badge = document.createElement('span');
@@ -89,7 +90,7 @@
                     tbody.appendChild(tr);
                 }
             } catch (_) {
-                tbody.innerHTML = '<tr><td colspan="4">Errore di rete.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" class="recent-empty">Errore di rete.</td></tr>';
             }
         }
 

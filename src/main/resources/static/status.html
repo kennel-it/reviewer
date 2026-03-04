@@ -19,6 +19,7 @@
         </p>
         <p class="job-label" style="margin-top:1.4rem;">Stato
             <span id="stateBadge" class="state-badge"></span>
+            <code id="packageName" style="margin-left:1rem;"></code>
         </p>
 
         <ol id="opList"></ol>
@@ -60,6 +61,7 @@
             const state = data.status;
             stateBadge.textContent  = STATE_LABELS[state] ?? state;
             stateBadge.className    = 'state-badge state-' + state.toLowerCase();
+            document.getElementById('packageName').textContent = data.packageName ?? '';
 
             opList.innerHTML = '';
             for (const op of data.operations ?? []) {

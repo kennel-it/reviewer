@@ -300,25 +300,9 @@ button[type="submit"]:disabled {
 .job-label {
     font-size: 0.8rem;
     font-weight: 600;
-    text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--text-muted);
     margin-bottom: 0.4rem;
-}
-
-.job-label code {
-    display: inline-block;
-    margin-left: 2rem;
-    font-family: monospace;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--accent);
-    background: rgba(var(--accent-rgb), 0.08);
-    border: 1px solid rgba(var(--accent-rgb), 0.25);
-    border-radius: 8px;
-    padding: 0.35rem 0.8rem;
-    word-break: break-all;
-    letter-spacing: 0.03em;
 }
 
 /* ── Pagina status ──────────────────────────────────────────────────────── */
@@ -419,6 +403,17 @@ button[type="submit"]:disabled {
     font-size: 0.82rem;
     color: var(--text-muted);
     margin-bottom: 1.4rem;
+}
+
+.recent-pkg {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: monospace;
+}
+
+.recent-empty {
+    color: var(--text-muted);
+    font-style: italic;
 }
 
 .card > table {

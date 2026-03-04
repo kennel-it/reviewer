@@ -36,6 +36,7 @@ public class StatusController {
                 .map(entry -> {
                     Map<String, Object> info = new LinkedHashMap<>();
                     info.put("jobId", entry.getKey());
+                    info.put("packageName", entry.getValue().getPackageName());
                     info.put("status", entry.getValue().getStatus());
                     info.put("registeredAt", entry.getValue().getRegisteredAt());
                     info.put("score", entry.getValue().getScore());
