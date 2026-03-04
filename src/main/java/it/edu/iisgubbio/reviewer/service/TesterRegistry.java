@@ -35,6 +35,15 @@ public class TesterRegistry {
         } catch (IOException e) {
             log.severe("Impossibile caricare TesterFattoria: " + e.getMessage());
         }
+
+        try (var in = getClass().getResourceAsStream("/data/TesterSport.java")) {
+            if (in != null) {
+                byte[] bytes = in.readAllBytes();
+                testers.put("it.edu.iisgubbio.oggetti.sport", new Tester("TesterSport",bytes));
+            }
+        } catch (IOException e) {
+            log.severe("Impossibile caricare ResterSport: " + e.getMessage());
+        }
     }
 
     public Tester getTesterFor(String pacchetto){

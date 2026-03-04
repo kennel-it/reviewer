@@ -100,7 +100,6 @@ public class UploadController {
         Tester tester = testerFinder.getTesterFor(packageDir);
         if(tester!=null){
             Path testerDir = resolvePackageDir(tester.bytes(), targetDir);
-
             try {
                 Files.createDirectories(testerDir);
                 Files.write(testerDir.resolve(tester.nomeClasse()+".java"), tester.bytes());
@@ -108,6 +107,9 @@ public class UploadController {
                 return ResponseEntity.internalServerError()
                     .body(UploadResponse.error("Errore nel copiare la classe per eseguire i test"));
             }
+        }else{
+            return ResponseEntity.badRequest()
+                    .body(UploadResponse.error("Nessun test per il pacchetto "+packageDir));
         }
 
         if (saved == 0) {
