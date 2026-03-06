@@ -33,35 +33,6 @@ public class AnalysisWorker {
 
     private static final Logger log = Logger.getLogger(AnalysisWorker.class.getName());
 
-    // --- cattura stdout thread-safe tramite ThreadLocal ---
-    // Ogni thread in esecuzione scrive sul proprio OutputStream;
-    // se nessuna cattura è attiva, si cade sul System.out originale.
-    private static final class ThreadLocalOutputStream extends java.io.OutputStream {
-        private final java.io.OutputStream fallback;
-        private final ThreadLocal<java.io.OutputStream> local = new ThreadLocal<>();
-
-        ThreadLocalOutputStream(java.io.OutputStream fallback) { this.fallback = fallback; }
-
-        void capture(java.io.OutputStream os) { local.set(os); }
-        void release()                        { local.remove(); }
-
-        private java.io.OutputStream current() {
-            java.io.OutputStream os = local.get();
-            return os != null ? os : fallback;
-        }
-
-        @Override public void write(int b)                          throws IOException { current().write(b); }
-        @Override public void write(byte[] b, int off, int len)     throws IOException { current().write(b, off, len); }
-        @Override public void flush()                               throws IOException { current().flush(); }
-    }
-
-    private static final ThreadLocalOutputStream TL_OUT = new ThreadLocalOutputStream(System.out);
-
-    static {
-        // installato una volta sola per tutta la durata del processo
-        System.setOut(new PrintStream(TL_OUT, true, StandardCharsets.UTF_8));
-    }
-
     private final JobRegistry jobBroker;
 
     public AnalysisWorker(JobRegistry jobBroker) {
@@ -91,15 +62,16 @@ public class AnalysisWorker {
                 Method mainMethod = testerClass.getMethod("main", String[].class);
 
                 // cattura stdout: TesterMobilita scrive i risultati su System.out
-                // thread-safe: ogni job usa il proprio buffer via ThreadLocal
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                TL_OUT.capture(baos);
+                PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8);
+                PrintStream originalOut = System.out;
+                System.setOut(ps);
                 try {
                     mainMethod.invoke(null, (Object) new String[0]);
                 } catch (InvocationTargetException e) {
                     log.warning("TesterMobilita ha lanciato un'eccezione: " + e.getCause());
                 } finally {
-                    TL_OUT.release();
+                    System.setOut(originalOut);
                 }
 
                 // ogni riga diventa una JobStatusOperation

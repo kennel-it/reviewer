@@ -3,9 +3,13 @@ package it.edu.iisgubbio.oggetti.sport;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+/**
+ * Classe di test
+ * @hidden
+ */
 public class TesterSport {
     public static void main(String[] args) {
-	    ClassTestManager m = new ClassTestManager("it.edu.iisgubbio.oggetti.sport", true);
+	    ClassTestManager m = new ClassTestManager("it.edu.iisgubbio.oggetti.sport", false);
 
         // --- Atleta ---
         // Luigi: eta=24, pesoKg=78.0, altezzaM=182.0, anniEsperienza=6
