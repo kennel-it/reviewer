@@ -19,6 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service // serve a Spring per poter fare injection
 public class JobRegistry {
 
+    // le due strutture qui sotto crescono senza limite,
+    // qui va bene soltnato perché il server viene spento a fine lezione
     private final ConcurrentHashMap<String, JobStatus> jobs = new ConcurrentHashMap<>();
     // Tiene traccia dell'ordine di inserimento dei job
     private final LinkedList<String> jobOrder = new LinkedList<>();

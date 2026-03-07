@@ -49,7 +49,7 @@ public class StatusController {
     /** Restituisce un riepilogo degli ultimi 20 job registrati */
     @GetMapping("/status/recent")
     public List<Map<String, Object>> recentJobs() {
-        return jobBroker.getRecentJobs(15).stream()
+        return jobBroker.getRecentJobs(20).stream()
                 .map(entry -> {
                     Map<String, Object> info = new LinkedHashMap<>();
                     info.put("jobId", entry.getKey());

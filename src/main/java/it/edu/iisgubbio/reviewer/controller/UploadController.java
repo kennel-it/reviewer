@@ -96,8 +96,13 @@ public class UploadController {
             }
         }
 
+        if (saved == 0) {
+            return ResponseEntity.badRequest()
+                    .body(UploadResponse.error("Nessun file .java tra quelli caricati"));
+        }
+
         // --- Copia ClassTestManager (utility usata dai Tester)
-        Tester manager = testerFinder.manager;
+        Tester manager = testerFinder.getManager();
         if (manager != null) {
             Path managerDir = resolvePackageDir(manager.bytes(), targetDir);
             try {
@@ -123,11 +128,6 @@ public class UploadController {
         }else{
             return ResponseEntity.badRequest()
                     .body(UploadResponse.error("Nessun test per il pacchetto "+packageDir));
-        }
-
-        if (saved == 0) {
-            return ResponseEntity.badRequest()
-                    .body(UploadResponse.error("Nessun file .java tra quelli caricati"));
         }
 
         jobBroker.register(effectiveId);

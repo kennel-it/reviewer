@@ -17,9 +17,9 @@ import java.util.logging.Logger;
 public class TesterRegistry {
 
     private static final Logger log = Logger.getLogger(TesterRegistry.class.getName());
-    private HashMap<String, Tester> testers = new HashMap<>();
+    private final HashMap<String, Tester> testers = new HashMap<>();
 
-    public Tester manager;
+    private Tester manager;
 
     public TesterRegistry() {
         var resolver = new PathMatchingResourcePatternResolver();
@@ -68,6 +68,10 @@ public class TesterRegistry {
 
     public Tester getTesterFor(String pacchetto) {
         return testers.get(pacchetto);
+    }
+
+    public Tester getManager() {
+        return manager;
     }
 
     /** Restituisce una mappa pacchetto → nome classe tester */

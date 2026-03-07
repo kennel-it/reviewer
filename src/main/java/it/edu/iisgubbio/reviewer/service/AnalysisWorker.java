@@ -39,7 +39,6 @@ public class AnalysisWorker {
     @Async
     public void analyze(Path workDir, String jobId, String testClassName) {
         jobBroker.setState(jobId, JobStatus.State.RUNNING);
-        System.out.println("#### "+testClassName);
         try {
             log.info("Analisi avviata per sessione '%s' in %s".formatted(jobId, workDir));
 
@@ -90,7 +89,6 @@ public class AnalysisWorker {
 
             jobBroker.setState(jobId, JobStatus.State.DONE);
         } catch (Exception e) {
-            e.printStackTrace();
             log.severe("Analisi fallita per job %s: %s".formatted(jobId, e.getMessage()));
             jobBroker.setState(jobId, JobStatus.State.ERROR);
         }
