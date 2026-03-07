@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /****************************************************************************
@@ -18,13 +19,15 @@ public class TesterRegistry {
     private static final Logger log = Logger.getLogger(TesterRegistry.class.getName());
     private HashMap<String, Tester> testers = new HashMap<>();
 
+    public Tester manager;
+
     public TesterRegistry() {
         var resolver = new PathMatchingResourcePatternResolver();
         try {
             Resource[] resources = resolver.getResources("classpath:/data/*.java");
             for (Resource res : resources) {
                 String filename = res.getFilename();
-                if (filename != null){
+                if (filename != null && filename.indexOf("Tester") > -1) {
                     String testerName = filename.replace(".java", "");
                     byte[] bytes = res.getInputStream().readAllBytes();
                     String pacchetto = leggiPacchetto(bytes);
@@ -34,19 +37,21 @@ public class TesterRegistry {
                     } else {
                         log.warning("Pacchetto non trovato in " + filename + ", file ignorato");
                     }
+                }else{
+                    log.info(filename + " non è un tester, file ignorato");
                 }
             }
         } catch (IOException e) {
             log.severe("Errore durante la scansione di resources/data: " + e.getMessage());
         }
-
-        try (var in = getClass().getResourceAsStream("/data/TesterSport.java")) {
+        try (var in = getClass().getResourceAsStream("/data/ClassTestManager.java")) {
             if (in != null) {
                 byte[] bytes = in.readAllBytes();
-                testers.put("it.edu.iisgubbio.oggetti.sport", new Tester("TesterSport",bytes));
+                manager = new Tester("ClassTestManager", bytes);
+                log.info("ClassTestManager caricato con successo");
             }
         } catch (IOException e) {
-            log.severe("Impossibile caricare ResterSport: " + e.getMessage());
+            log.severe("Impossibile caricare ClassTestManager: " + e.getMessage());
         }
     }
 
@@ -63,6 +68,13 @@ public class TesterRegistry {
 
     public Tester getTesterFor(String pacchetto) {
         return testers.get(pacchetto);
+    }
+
+    /** Restituisce una mappa pacchetto → nome classe tester */
+    public Map<String, String> getTesters() {
+        var result = new HashMap<String, String>();
+        testers.forEach((pkg, tester) -> result.put(pkg, tester.nomeClasse()));
+        return result;
     }
 
 }

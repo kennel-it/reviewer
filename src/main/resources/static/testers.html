@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('reviewer-theme')||'dark');</script>
+    <title>Pacchetti testabili — Reviewer</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/theme.js" defer></script>
+</head>
+<body class="status-page">
+    <div class="card card-wide">
+        <div class="card-header">
+            <span>&lt;/&gt;</span>
+            <h1>Pacchetti testabili</h1>
+        </div>
+
+        <p class="recent-hint">Pacchetti Java per cui è disponibile un tester.</p>
+
+        <table id="testersTable">
+            <thead>
+                <tr>
+                    <th>Pacchetto</th>
+                    <th>Classe tester</th>
+                </tr>
+            </thead>
+            <tbody id="testersBody">
+                <tr><td colspan="2" class="recent-empty">Caricamento…</td></tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        const tbody = document.getElementById('testersBody');
+
+        async function load() {
+            try {
+                const res = await fetch('/testers');
+                if (!res.ok) {
+                    tbody.innerHTML = '<tr><td colspan="2">Errore nel caricamento.</td></tr>';
+                    return;
+                }
+                const testers = await res.json();
+
+                if (testers.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="2" class="recent-empty">Nessun tester registrato.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                for (const t of testers) {
+                    const tr = document.createElement('tr');
+
+                    const tdPkg = document.createElement('td');
+                    tdPkg.innerHTML = `<code>${t.packageName}</code>`;
+
+                    const tdClass = document.createElement('td');
+                    tdClass.innerHTML = `<code>${t.testerClass}</code>`;
+
+                    tr.append(tdPkg, tdClass);
+                    tbody.appendChild(tr);
+                }
+            } catch (_) {
+                tbody.innerHTML = '<tr><td colspan="2" class="recent-empty">Errore di rete.</td></tr>';
+            }
+        }
+
+        load();
+    </script>
+</body>
+</html>

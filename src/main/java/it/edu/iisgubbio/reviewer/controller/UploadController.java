@@ -96,6 +96,19 @@ public class UploadController {
             }
         }
 
+        // --- Copia ClassTestManager (utility usata dai Tester)
+        Tester manager = testerFinder.manager;
+        if (manager != null) {
+            Path managerDir = resolvePackageDir(manager.bytes(), targetDir);
+            try {
+                Files.createDirectories(managerDir);
+                Files.write(managerDir.resolve(manager.nomeClasse() + ".java"), manager.bytes());
+            } catch (IOException e) {
+                return ResponseEntity.internalServerError()
+                        .body(UploadResponse.error("Errore nel copiare ClassTestManager"));
+            }
+        }
+
         // --- Copia la classe di prova
         Tester tester = testerFinder.getTesterFor(packageDir);
         if(tester!=null){

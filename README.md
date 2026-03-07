@@ -48,6 +48,12 @@ Il server si avvia sulla porta `8080`.
 
 ---
 
+## TODO
+
+- **Eliminare il redirect globale di `System.out` in `AnalysisWorker`**: i Tester dovrebbero raccogliere i risultati in una struttura dati propria invece di scrivere sullo standard output. `AnalysisWorker` leggerebbe quella struttura via reflection, senza bisogno di lock né di redirigere l'output globale della JVM. Ogni job gira già in un classloader isolato, quindi i dati sarebbero naturalmente separati e i job potrebbero girare in parallelo.
+
+---
+
 ## Vincoli di progetto
 
 - Nessun database: tutto in memoria, nessuna persistenza tra riavvii

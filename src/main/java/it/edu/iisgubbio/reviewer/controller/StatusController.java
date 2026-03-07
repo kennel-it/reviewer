@@ -2,6 +2,7 @@ package it.edu.iisgubbio.reviewer.controller;
 
 import it.edu.iisgubbio.reviewer.model.JobStatus;
 import it.edu.iisgubbio.reviewer.service.JobRegistry;
+import it.edu.iisgubbio.reviewer.service.TesterRegistry;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +16,11 @@ import java.util.Map;
 public class StatusController {
 
     private final JobRegistry jobBroker;
+    private final TesterRegistry testerRegistry;
 
-    public StatusController(JobRegistry jobBroker) {
+    public StatusController(JobRegistry jobBroker, TesterRegistry testerRegistry) {
         this.jobBroker = jobBroker;
+        this.testerRegistry = testerRegistry;
     }
 
     @GetMapping("/status/{jobId}")
@@ -27,6 +30,20 @@ public class StatusController {
                 .map(s -> ResponseEntity.ok(s))
                 // orElse se riceve un Optional con un valore lo usa o altrimenti mette quello fornito come parametro
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    /** Restituisce la lista dei pacchetti che hanno un tester registrato */
+    @GetMapping("/testers")
+    public List<Map<String, Object>> testers() {
+        return testerRegistry.getTesters().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(e -> {
+                    Map<String, Object> info = new LinkedHashMap<>();
+                    info.put("packageName", e.getKey());
+                    info.put("testerClass", e.getValue());
+                    return info;
+                })
+                .toList();
     }
 
     /** Restituisce un riepilogo degli ultimi 20 job registrati */

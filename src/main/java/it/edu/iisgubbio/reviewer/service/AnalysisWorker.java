@@ -11,14 +11,11 @@ import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -57,26 +54,22 @@ public class AnalysisWorker {
             URL[] urls = { workDir.toUri().toURL() };
             try (URLClassLoader classLoader = new URLClassLoader(urls, getClass().getClassLoader())) {
 
-                // --- Fase 3: esecuzione di TesterMobilita.main() ---
+                // --- Fase 3: esecuzione di doTest(false) sul Tester ---
                 Class<?> testerClass = classLoader.loadClass(testClassName);
-                Method mainMethod = testerClass.getMethod("main", String[].class);
+                Object testerInstance = testerClass.getDeclaredConstructor().newInstance();
+                Method doTestMethod = testerClass.getMethod("doTest", boolean.class);
 
-                // cattura stdout: TesterMobilita scrive i risultati su System.out
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8);
-                PrintStream originalOut = System.out;
-                System.setOut(ps);
+                List<String> lines;
                 try {
-                    mainMethod.invoke(null, (Object) new String[0]);
+                    //noinspection unchecked
+                    lines = (List<String>) doTestMethod.invoke(testerInstance, false);
                 } catch (InvocationTargetException e) {
-                    log.warning("TesterMobilita ha lanciato un'eccezione: " + e.getCause());
-                } finally {
-                    System.setOut(originalOut);
+                    log.warning("doTest ha lanciato un'eccezione: " + e.getCause());
+                    lines = List.of();
                 }
 
                 // ogni riga diventa una JobStatusOperation
-                String output = baos.toString(StandardCharsets.UTF_8);
-                output.lines()
+                lines.stream()
                         .filter(line -> !line.isBlank())
                         .forEach(line -> {
                             boolean ok;
@@ -93,7 +86,6 @@ public class AnalysisWorker {
                             }
                             jobBroker.addOperation(jobId, new JobStatusOperation(text, ok));
                         });
-
             }
 
             jobBroker.setState(jobId, JobStatus.State.DONE);
