@@ -1,63 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   style="background-color: rgb(255, 255, 255);"
    version="1.1"
-   width="1638px"
-   height="1939px"
+   width="1638"
+   height="1939"
    viewBox="-0.5 -0.5 1638 1939"
    content="&lt;mxfile host=&quot;app.diagrams.net&quot; modified=&quot;2021-06-06T17:35:45.955Z&quot; agent=&quot;5.0 (Macintosh)&quot; etag=&quot;-QM5bGjGyCEgcCRHBo3R&quot; version=&quot;14.7.2&quot; type=&quot;google&quot;&gt;&lt;diagram name=&quot;Page-1&quot; id=&quot;c4acf3e9-155e-7222-9cf6-157b1a14988f&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;"
    id="svg221"
-   sodipodi:docname="uml-classi.svg"
-   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
-   inkscape:export-filename="mobilita.pdf"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <sodipodi:namedview
-     id="namedview221"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.72552713"
-     inkscape:cx="855.24025"
-     inkscape:cy="130.25013"
-     inkscape:window-width="2147"
-     inkscape:window-height="824"
-     inkscape:window-x="413"
-     inkscape:window-y="366"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="svg221"
-     inkscape:export-bgcolor="#ffffffff"
-     showgrid="false" />
+   xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs27">
-    <rect
-       x="69.060011"
-       y="176.01881"
-       width="546.67919"
-       height="236.92606"
-       id="rect300" />
-    <rect
-       x="68.217816"
-       y="173.49222"
-       width="539.00496"
-       height="203.81125"
-       id="rect299" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="120.69799"
-       height="54.537615"
-       id="rect246" />
     <clipPath
        id="mx-clip-786-147-352-44-0">
       <rect
@@ -292,153 +245,6 @@
          height="102"
          id="rect26" />
     </clipPath>
-    <linearGradient
-       x1="0%"
-       y1="0%"
-       x2="0%"
-       y2="100%"
-       id="mx-gradient-f5f5f5-1-b3b3b3-1-s-0">
-      <stop
-         offset="0%"
-         style="stop-color:#f5f5f5"
-         id="stop26" />
-      <stop
-         offset="100%"
-         style="stop-color:#b3b3b3"
-         id="stop27" />
-    </linearGradient>
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="120.69799"
-       height="54.537615"
-       id="rect248" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="120.69799"
-       height="54.537615"
-       id="rect250" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="120.69799"
-       height="54.537615"
-       id="rect252" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="120.69799"
-       height="54.537615"
-       id="rect254" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="120.69799"
-       height="54.537615"
-       id="rect256" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect258" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="120.69799"
-       height="54.537615"
-       id="rect260" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect262" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect264" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="97.007414"
-       height="64.128922"
-       id="rect266" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="97.007414"
-       height="64.128922"
-       id="rect268" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect270" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect272" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect274" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect276" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect278" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect280" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect282" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect284" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect286" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="121.35606"
-       height="69.015188"
-       id="rect288" />
-    <rect
-       x="1152.5"
-       y="102.5"
-       width="75.684054"
-       height="65.577512"
-       id="rect288-9" />
   </defs>
   <path
      d="m 782,142 v -40 h 360 v 40"
@@ -1465,10 +1271,7 @@
     <text
        x="1347.5"
        y="1611.5"
-       id="text149"
-       inkscape:export-filename="mobilita.pdf"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96">+ setDistanzaMassima(d: int)</text>
+       id="text149">+ setDistanzaMassima(d: int)</text>
   </g>
   <path
      d="m 1202,1222 139.93,-118.3"
@@ -1825,42 +1628,6 @@
      stroke-miterlimit="10"
      pointer-events="none"
      id="path190" />
-  <g
-     transform="translate(-0.5,-0.5)"
-     id="g197">
-    <switch
-       id="switch197">
-      <foreignObject
-         style="overflow: visible; text-align: left;"
-         pointer-events="none"
-         width="100%"
-         height="100%"
-         requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-        <xhtml:div
-           style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 278px; height: 1px; padding-top: 42px; margin-left: 393px;">
-          <xhtml:div
-             style="box-sizing: border-box; font-size: 0; text-align: center; ">
-            <xhtml:div
-               style="display: inline-block; font-size: 70px; font-family: Courier New; color: #003300; line-height: 1.2; pointer-events: none; font-weight: bold; white-space: normal; word-wrap: normal; ">
-              <xhtml:font
-                 style="font-size: 70px">it.edu.iisgubbio.<xhtml:font
-   style="font-size: 70px">mobilita</xhtml:font>
-</xhtml:font>
-            </xhtml:div>
-          </xhtml:div>
-        </xhtml:div>
-      </foreignObject>
-      <text
-         x="713.22559"
-         y="77.1875"
-         fill="#003300"
-         font-family="'Courier New'"
-         font-size="70px"
-         text-anchor="middle"
-         font-weight="bold"
-         id="text197">it.edu.iisgubbio.oggetti.mobilita</text>
-    </switch>
-  </g>
   <switch
      id="switch221">
     <g
@@ -1881,7 +1648,12 @@
   </switch>
   <text
      xml:space="preserve"
-     transform="translate(-0.5,-0.5)"
-     id="text298"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;line-height:1.5;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:center;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:1px;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;white-space:pre;shape-inside:url(#rect299);display:inline;opacity:1;fill:#d5e8d4;fill-opacity:1;stroke:#82b366;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:fill markers stroke" />
+     style="font-weight:500;font-size:74.6667px;line-height:1.4;font-family:Futura;-inkscape-font-specification:'Futura Medium';text-align:end;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:end;fill:#ffffff;stroke-width:3.77953;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+     x="1354.0367"
+     y="73.482933"
+     id="text1"><tspan
+       id="tspan1"
+       x="1354.0367"
+       y="73.482933"
+       style="font-size:74.6667px;fill:#000000;fill-opacity:1">it.edu.iisgubbio.oggetti.mobilita</tspan></text>
 </svg>

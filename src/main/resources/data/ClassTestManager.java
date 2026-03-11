@@ -71,8 +71,13 @@ public class ClassTestManager {
     }
 
     public void stampa(Exception ex) {
-        String colpevole = ex.getMessage().replaceAll("\\b[a-z\\.]+\\.", "");
-        String tipo = ex.getClass().getSimpleName();
+        Throwable t = ex;
+        // mi arrampico sui "caused by"
+        while(t.getCause()!=null) {
+            t = t.getCause();
+        }
+        String colpevole = t.getMessage().replaceAll("\\b[a-z\\.]+\\.", "");
+        String tipo = t.getClass().getSimpleName();
         stampa(tipo+" "+colpevole, false);
     }
 

@@ -24,9 +24,12 @@ public class ReviewerApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addViewControllers(ViewControllerRegistry registry) {
-				registry.addRedirectViewController("/mobilita", "/mobilita/it/edu/iisgubbio/oggetti/mobilita/package-summary.html");
-				registry.addRedirectViewController("/mobilità", "/mobilita/it/edu/iisgubbio/oggetti/mobilita/package-summary.html");
-				registry.addRedirectViewController("/sport",    "/sport/it/edu/iisgubbio/oggetti/sport/package-summary.html");
+				registry.addRedirectViewController("/mobilita",  "/mobilita/it/edu/iisgubbio/oggetti/mobilita/package-summary.html");
+				registry.addRedirectViewController("/mobilità",  "/mobilita/it/edu/iisgubbio/oggetti/mobilita/package-summary.html");
+				registry.addRedirectViewController("/mobilita/", "/mobilita/it/edu/iisgubbio/oggetti/mobilita/package-summary.html");
+				registry.addRedirectViewController("/mobilità/", "/mobilita/it/edu/iisgubbio/oggetti/mobilita/package-summary.html");
+				registry.addRedirectViewController("/sport",     "/sport/it/edu/iisgubbio/oggetti/sport/package-summary.html");
+				registry.addRedirectViewController("/sport/",    "/sport/it/edu/iisgubbio/oggetti/sport/package-summary.html");
 			}
 		};
 	}
